@@ -32,20 +32,60 @@ namespace Acme.Biz
 
         public List<Vendor> Retrieve()
         {
-            if(vendors == null)
+            if (vendors == null)
             {
                 vendors = new List<Vendor>();
 
                 vendors.Add(new Vendor()
-                    { VendorId = 1, CompanyName = "ABC", Email = "abc@abc.com" });
+                { VendorId = 1, CompanyName = "ABC Corp", Email = "abc@abc.com" });
                 vendors.Add(new Vendor()
-                    { VendorId = 2, CompanyName = "XYZ", Email = "xyz@xyz.com" });
+                { VendorId = 2, CompanyName = "XYZ Inc", Email = "xyz@xyz.com" });
             }
             foreach (var vendor in vendors)
             {
                 Console.WriteLine(vendor);
             }
-         
+
+            return vendors;
+
+        }
+
+
+        public Dictionary<string,Vendor> RetrieveWithKeys()
+        {
+            var vendors = new Dictionary<string, Vendor>()
+            {
+                { "ABC Corp", new Vendor()
+                { VendorId = 1, CompanyName = "ABC Corp", Email = "abc@abc.com" } },
+                { "XYZ Inc", new Vendor()
+                { VendorId = 2, CompanyName = "XYZ Inc", Email = "xyz@xyz.com" } }
+            };
+
+            foreach (var element in vendors)
+            {
+                var value = element.Value;
+                var key = element.Key;
+                Console.WriteLine($"Key: {key} Value: {value}");
+            }
+
+            //foreach (var vendor in vendors.Values)
+            //{
+            //    Console.WriteLine(vendor);
+            //}
+
+            //foreach (var companyName in vendors.Keys)
+            //{
+            //    Console.WriteLine(vendors[companyName]);
+            //}
+
+            //Console.WriteLine(vendors["XYZ Inc"]);
+
+            //Vendor vendor;
+            //if (vendors.TryGetValue("XYZ", out vendor))
+            //{
+            //    Console.WriteLine(vendor);
+            //}
+
             return vendors;
 
         }
