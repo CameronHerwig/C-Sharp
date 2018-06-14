@@ -16,6 +16,23 @@ namespace Acme.Biz
         #region Constructors
         public Product()
         {
+            string[] colorOptions = {"Red", "Expresso", "White", "Navy"};
+
+            var brownIndex = Array.IndexOf(colorOptions,"Expresso");
+
+            colorOptions.SetValue("Blue", 3);
+
+            for (int i = 0; i < colorOptions.Length; i++)
+            {
+                colorOptions[i] = colorOptions[i].ToLower();
+            }
+
+            foreach (var color in colorOptions)
+            {
+                Console.WriteLine($"The color is {color}");
+            }
+
+            Console.WriteLine(colorOptions);
         }
         public Product(int productId,
                         string productName,
@@ -28,7 +45,7 @@ namespace Acme.Biz
         #endregion
 
         #region Properties
-        public DateTime? AvailabilityDate { get; set; }
+        public DateTime? AvailabilityDate { get => _availabilityDate; set => _availabilityDate = value; }
 
         public decimal Cost { get; set; }
 
@@ -39,7 +56,8 @@ namespace Acme.Biz
         private string productName;
         public string ProductName
         {
-            get {
+            get
+            {
                 var formattedValue = productName?.Trim();
                 return formattedValue;
             }
@@ -63,9 +81,12 @@ namespace Acme.Biz
         }
 
         private Vendor productVendor;
+        private DateTime? _availabilityDate;
+
         public Vendor ProductVendor
         {
-            get {
+            get
+            {
                 if (productVendor == null)
                 {
                     productVendor = new Vendor();
