@@ -30,7 +30,7 @@ namespace Acme.Biz
             return vendor;
         }
 
-        public List<Vendor> Retrieve()
+        public IEnumerable<Vendor> Retrieve()
         {
             if (vendors == null)
             {
@@ -50,44 +50,15 @@ namespace Acme.Biz
 
         }
 
-
-        public Dictionary<string,Vendor> RetrieveWithKeys()
+        public IEnumerable<Vendor> RetrieveWithIterator()
         {
-            var vendors = new Dictionary<string, Vendor>()
-            {
-                { "ABC Corp", new Vendor()
-                { VendorId = 1, CompanyName = "ABC Corp", Email = "abc@abc.com" } },
-                { "XYZ Inc", new Vendor()
-                { VendorId = 2, CompanyName = "XYZ Inc", Email = "xyz@xyz.com" } }
-            };
+            this.Retrieve();
 
-            foreach (var element in vendors)
+            foreach (var vendor in vendors)
             {
-                var value = element.Value;
-                var key = element.Key;
-                Console.WriteLine($"Key: {key} Value: {value}");
+                Console.WriteLine($"Vendor Id: {vendor.VendorId}");
+                yield return vendor;
             }
-
-            //foreach (var vendor in vendors.Values)
-            //{
-            //    Console.WriteLine(vendor);
-            //}
-
-            //foreach (var companyName in vendors.Keys)
-            //{
-            //    Console.WriteLine(vendors[companyName]);
-            //}
-
-            //Console.WriteLine(vendors["XYZ Inc"]);
-
-            //Vendor vendor;
-            //if (vendors.TryGetValue("XYZ", out vendor))
-            //{
-            //    Console.WriteLine(vendor);
-            //}
-
-            return vendors;
-
         }
 
 
