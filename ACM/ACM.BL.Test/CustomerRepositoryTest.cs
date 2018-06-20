@@ -36,7 +36,7 @@ namespace ACM.BL.Test
             var result = repository.Find(customerList, 42);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.IsNotNull(result);
         }
     }
 }

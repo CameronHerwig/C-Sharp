@@ -12,14 +12,30 @@ namespace ACM.BL
         {
             Customer foundCustomer = null;
 
-            foreach (var c in customerList)
-            {
-                if (c.CustomerId == customerId)
-                {
-                    foundCustomer = c;
-                    break;
-                }
-            }
+            //foreach (var c in customerList)
+            //{
+            //    if (c.CustomerId == customerId)
+            //    {
+            //        foundCustomer = c;
+            //        break;
+            //    }
+            //}
+
+            //var query = from c in customerList
+            //            where c.CustomerId == customerId
+            //            select c;
+
+            //foundCustomer = query.First();         
+
+            //foundCustomer = customerList.First(c => c.CustomerId == customerId);
+
+            //foundCustomer = customerList.FirstOrDefault(c =>
+            //{
+            //    Debug.WriteLine(c.LastName);
+            //    return c.CustomerId == customerId;
+            //});
+
+            foundCustomer = customerList.Where(c => c.CustomerId == customerId).Skip(1).FirstOrDefault();
 
             return foundCustomer;
 
