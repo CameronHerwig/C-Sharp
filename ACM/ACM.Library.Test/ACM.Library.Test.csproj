@@ -57,14 +57,26 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BuilderTest.cs" />
     <Compile Include="StringExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ACM.BL.Test\ACM.BL.Test.csproj">
+      <Project>{e848b1db-42fb-40b4-80f9-1421a2df6913}</Project>
+      <Name>ACM.BL.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ACM.BL\ACM.BL.csproj">
+      <Project>{21f6275e-6717-4ff9-ba26-627094c50e88}</Project>
+      <Name>ACM.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ACM.Library\ACM.Library.csproj">
       <Project>{b070b0bc-6992-438c-bf2f-447b8ec82f09}</Project>
       <Name>ACM.Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
