@@ -74,8 +74,22 @@ namespace ACM.BL
                 Console.WriteLine(item.Name + ": " + item.CustomerTypeName);
             }
 
-            return query;
+            return query.ToList();
         }
+
+        public dynamic GetNamesAndId(List<Customer> customerList)
+        {
+            var query = customerList.OrderBy(c => c.LastName)
+                                            .ThenBy(c => c.FirstName)
+                                            .Select(c => new
+                                            {
+                                                Name = c.LastName + ", " + c.FirstName,
+                                                c.CustomerId
+                                            });
+
+            return query.ToList();
+        }
+
 
         public IEnumerable<Customer> GetOverdueCustomers(List<Customer> customerList)
         {
