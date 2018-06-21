@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ACM.BL
 {
-    class InvoiceRepository
+    public class InvoiceRepository
     {
         /// <summary>
         /// Retrieves the list of invoices.
@@ -88,6 +88,91 @@ namespace ACM.BL
                             DiscountPercent=0M}};
 
             return invoiceList;
+        }
+
+        public decimal CalculateTotalAmountInvoiced(List<Invoice> invoiceList)
+        {
+            return invoiceList.Sum(inv => inv.TotalAmount);
+        }
+
+        public decimal CalculateTotalUnitsSold(List<Invoice> invoiceList)
+        {
+            return invoiceList.Sum(inv => inv.NumberOfUnits);
+        }
+
+        public dynamic GetInvoiceTotalByIsPaid(List<Invoice> invoiceList)
+        {
+            var query = invoiceList.GroupBy(inv => inv.IsPaid ?? false,
+                                            inv => inv.TotalAmount,
+                                            (groupKey, invTotal) => new
+                                            {
+                                                Key = groupKey,
+                                                InvoicedAmount = invTotal.Sum()
+                                            });
+
+            foreach (var item in query)
+            {
+                Console.WriteLine(item.Key + ": " + item.InvoicedAmount);
+            }
+
+            return query;
+        }
+
+        public dynamic GetInvoiceTotalByIsPaidAndMonth(List<Invoice> invoiceList)
+        {
+            var query = invoiceList.GroupBy(inv => new
+                                            {
+                                                Ispaid = inv.IsPaid ?? false,
+                                                InvoiceMonth = inv.InvoiceDate.ToString("MMMM")
+                                            },
+                                            inv => inv.TotalAmount,
+                                            (groupKey, invTotal) => new
+                                            {
+                                                Key = groupKey,
+                                                InvoicedAmount = invTotal.Sum()
+                                            });
+
+            foreach (var item in query)
+            {
+                Console.WriteLine(item.Key.Ispaid + "/" + item.Key.InvoiceMonth + ": " + item.InvoicedAmount);
+            }
+
+            return query;
+        }
+
+        public decimal CalculateMean(List<Invoice> invoiceList)
+        {
+            return invoiceList.Average(inv => inv.DiscountPercent);
+        }
+
+        public decimal CalculateMedian(List<Invoice> invoiceList)
+        {
+            var sortedList = invoiceList.OrderBy(inv => inv.DiscountPercent);
+
+            int count = invoiceList.Count();
+            int position = count / 2;
+
+            decimal median;
+            if ((count % 2) == 0)
+            {
+                median = (sortedList.ElementAt(position).DiscountPercent +
+                           sortedList.ElementAt(position - 1).DiscountPercent) / 2;
+            }
+            else
+            {
+                median = sortedList.ElementAt(position).DiscountPercent;
+            }
+
+            return median;
+        }
+
+        public decimal CalculateMode(List<Invoice> invoiceList)
+        {
+            var mode = invoiceList.GroupBy(inv => inv.DiscountPercent)
+                        .OrderByDescending(group => group.Count())
+                        .Select(group => group.Key)
+                        .FirstOrDefault();
+            return mode;
         }
 
         /// <summary>

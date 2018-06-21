@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -135,24 +136,5 @@ namespace ACM.BL.Test
             var query = repository.GetNamesAndType(customerList, customerTypeList);
         }
 
-        [TestMethod]
-        public void GetOverdueCustomersTest()
-        {
-            // Arrange
-            CustomerRepository repository = new CustomerRepository();
-            var customerList = repository.Retrieve();
-
-            // Act
-            var query = repository.GetOverdueCustomers(customerList);
-
-            // Analyze
-            foreach (var item in query)
-            {
-                TestContext.WriteLine(item.LastName + ", " + item.FirstName);
-            }
-
-            // Assert
-            Assert.IsNotNull(query);
-        }
     }
 }
