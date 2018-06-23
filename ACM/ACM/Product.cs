@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ACM.BL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ACM
 {
-    public class Product
+    public class Product : EntityBase
     {
         public Product()
         {
@@ -22,7 +23,7 @@ namespace ACM
         public string ProductDescription { get; set; }
         public string ProductName { get; set; }
 
-        public bool Validate()
+        public override bool Validate()
         {
             var isValid = true;
 
@@ -32,6 +33,10 @@ namespace ACM
             return isValid;
         }
 
+        public override string ToString()
+        {
+            return ProductName;
+        }
 
     }
 }
