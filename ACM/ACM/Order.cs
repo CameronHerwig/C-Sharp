@@ -16,18 +16,11 @@ namespace ACM
             this.OrderId = orderId;
         }
 
+        public int CustomerId { get; set; }
+        public int ShippingAddressId { get; set; }
         public DateTimeOffset? OrderDate { get; set; }
         public int OrderId { get; set; }
-
-        public Order Retrieve(int orderId)
-        {
-            return new ACM.Order();
-        }
-
-        public bool Save()
-        {
-            return true;
-        }
+        public List<OrderItem> orderItems { get; set; }
 
         public bool Validate()
         {

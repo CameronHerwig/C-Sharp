@@ -8,13 +8,17 @@ namespace ACM
 {
     public class Customer
     {
-        public Customer()
+        public Customer() : this(0)
         {
         }
         public Customer(int customerID)
         {
             this.CustomerId = customerID;
+            AddressList = new List<Address>();
         }
+
+        public List<Address> AddressList { get; set; }
+        public int CustomerType { get; set; }
         public static int InstanceCount { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -47,19 +51,5 @@ namespace ACM
             return isValid;
         }
 
-        public bool Save()
-        {
-            return true;
-        }
-
-        public Customer Retrieve(int customerId)
-        {
-            return new Customer();
-        }
-
-        public List<Customer> Retrieve()
-        {
-            return new List<Customer>();
-        }
     }
 }
