@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ACM.Library;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +17,39 @@ namespace ACM.BL
 
         public string LastName { get; set; }
 
-        public void ValidateEmail()
+        public OperationResult ValidateEmail()
         {
-            // -- Send an email receipt --
-            // If the user requested a receipt
-            // Get the customer data
-            // Ensure a valid email address was provided.
-            // If not,
-            // request an email address from the user.
+            var op = new OperationResult();
+
+            if (string.IsNullOrWhiteSpace(this.EmailAddress))
+            {
+                op.Success = false;
+                op.AddMessage("Email address is null");
+            }
+
+            if (op.Success)
+            {
+                var isValidFormat = true;
+                // Code here that validates the format of the email
+                // using Regular Expressions.
+                if (!isValidFormat)
+                {
+                    op.Success = false;
+                    op.AddMessage("Email address is not in a correct format");
+                }
+            }
+
+            if (op.Success)
+            {
+                var isRealDomain = true;
+                // Code here that confirms whether domain exists.
+                if (!isRealDomain)
+                {
+                    op.Success = false;
+                    op.AddMessage("Email address does not include a valid domain");
+                }
+            }
+            return op;
         }
 
         public decimal CalculatePercentOfGoalSteps(string goalStepCount, string actualStepCount)
@@ -34,16 +60,16 @@ namespace ACM.BL
             if (string.IsNullOrWhiteSpace(goalStepCount)) throw new ArgumentException("Goal must be entered", "goalSteps");
             if (string.IsNullOrWhiteSpace(actualStepCount)) throw new ArgumentException("Actual steps count must be entered", "actualSteps");
 
-            if (!decimal.TryParse(goalStepCount, out goalSteps)) throw new ArgumentException("Goal must be numeric", "goalSteps");
+            if (!decimal.TryParse(goalStepCount, out goalSteps)) throw new ArgumentException("Goal must be numeric");
             if (!decimal.TryParse(actualStepCount, out actualSteps)) throw new ArgumentException("Actual steps must be numeric", "actualSteps");
 
-            return CalculatePercentOfGoalSteps(goalStepCount, actualStepCount);
+            return CalculatePercentOfGoalSteps(goalSteps, actualSteps);
         }
 
         public decimal CalculatePercentOfGoalSteps(decimal goalStepCount, decimal actualStepCount)
         {
             if (goalStepCount <= 0) throw new ArgumentException("Goal must be greater than 0", "goalSteps");
-            return (actualStepCount / goalStepCount) * 100;
+            return Math.Round((actualStepCount / goalStepCount) * 100,2);
         }
     }
 }

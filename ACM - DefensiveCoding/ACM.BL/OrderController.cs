@@ -33,11 +33,15 @@ namespace ACM.Win
 
             if (emailReceipt)
             {
-                customer.ValidateEmail();
-                customerRepository.Update();
+                var result = customer.ValidateEmail();
+                if (result.Success)
+                {
+                    customerRepository.Update();
 
-                emailLibrary.SendEmail(customer.EmailAddress,
-                                        "Here is your receipt");
+                    emailLibrary.SendEmail(customer.EmailAddress,
+                                            "Here is your receipt");
+                }
+                
             }
         }
     }
