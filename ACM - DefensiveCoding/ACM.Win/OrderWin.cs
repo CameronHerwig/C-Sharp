@@ -15,6 +15,11 @@ namespace ACM.Win
        
         private void button1_Click(object sender, EventArgs e)
         {
+            Button button = sender as Button;
+            if (button != null)
+            {
+                button.Text = "Processing ...";
+            }
             PlaceOrder();
         }
 
