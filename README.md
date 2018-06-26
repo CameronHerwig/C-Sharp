@@ -7,3 +7,5 @@ AcmeApp - A small vendor app that showcases collection types, generics, interfac
 ACM-LINQ - Customer Management app which showcases LINQ operations
 
 ACM - Customer Management app showcasing OOP practices 
+
+ACM-DefensiveCoding - Customer Management app showcasing defensive coding practices
