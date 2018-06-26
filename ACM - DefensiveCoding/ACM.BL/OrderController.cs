@@ -1,5 +1,9 @@
 ﻿using ACM.BL;
+using ACM.Library;
 using Core.Common;
+using System;
+using System.Diagnostics;
+using System.Linq;
 
 namespace ACM.Win
 {
@@ -18,18 +22,26 @@ namespace ACM.Win
             emailLibrary = new EmailLibrary();
         }
 
-        public void PlaceOrder(Customer customer,
-                                Order order,
-                                Payment payment,
-                                bool allowSplitOrders, bool emailReceipt)
+        public OperationResult PlaceOrder(Customer customer, Order order, Payment payment, bool allowSplitOrders, bool emailReceipt)
         {
+            Debug.Assert(customerRepository != null, "Missing customer respository instance");
+            Debug.Assert(orderRepository != null, "Missing order repository instance");
+            Debug.Assert(inventoryRepository != null, "Missing inventory repository instance");
+            Debug.Assert(emailLibrary != null, "Missing email library instance");
+
+            if (customer == null) throw new ArgumentNullException("Customer instance is null");
+            if (order == null) throw new ArgumentNullException("Order instance is null");
+            if (payment == null) throw new ArgumentNullException("Payment instance is null");
+
+            var op = new OperationResult();
+
             customerRepository.Add(customer);
 
             orderRepository.Add(order);
 
             inventoryRepository.OrderItems(order, allowSplitOrders);
 
-            payment.ProcessPayment(payment);
+            payment.ProcessPayment();
 
             if (emailReceipt)
             {
@@ -41,8 +53,16 @@ namespace ACM.Win
                     emailLibrary.SendEmail(customer.EmailAddress,
                                             "Here is your receipt");
                 }
+                else
+                {
+                    if (result.MessageList.Any())
+                    {
+                        op.AddMessage(result.MessageList[0]);
+                    }
+                }
                 
             }
+            return op;
         }
     }
 }
